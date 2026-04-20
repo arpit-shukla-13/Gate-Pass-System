@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Search, Clock, XCircle, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
-const API_URL = import.meta.env.VITE_API_URL;
+
+// 🔥 Safety ke liye fallback URL add kiya
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const CheckStatus = () => {
   const [phone, setPhone] = useState('');
@@ -17,6 +19,7 @@ const CheckStatus = () => {
     setResult(null);
 
     try {
+      // Yahan tumhara code ekdum sahi tha!
       const { data } = await axios.get(`${API_URL}/api/visits/status/${phone}`);
       setResult(data);
     } catch (err) {
@@ -27,13 +30,10 @@ const CheckStatus = () => {
   };
 
   return (
-    // Explicitly bg-slate-900 add kiya aur text-white force kiya hai
     <div className="min-h-[calc(100vh-64px)] bg-slate-900 text-white flex flex-col items-center py-12 px-4 relative overflow-hidden">
       
-      {/* Background Glow (Fixed blur) */}
       <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/20 blur-3xl rounded-full pointer-events-none"></div>
 
-      {/* Navigation Header */}
       <div className="w-full max-w-md mb-8 flex justify-between items-center relative z-10">
         <h1 className="text-3xl font-bold text-white tracking-tight">Track <span className="text-indigo-400">Status</span></h1>
         <Link to="/register-visitor" className="text-slate-400 hover:text-indigo-400 font-semibold text-sm transition-colors">
@@ -41,7 +41,6 @@ const CheckStatus = () => {
         </Link>
       </div>
 
-      {/* Search Box - Solid background instead of transparent blur */}
       <div className="max-w-md w-full bg-slate-800 rounded-2xl shadow-xl shadow-indigo-900/20 border border-slate-700 p-8 mb-8 relative z-10">
         <form onSubmit={handleSearch}>
           <label className="block text-sm font-medium text-slate-400 mb-2">Enter Registered Phone Number</label>
@@ -63,13 +62,11 @@ const CheckStatus = () => {
         {error && <p className="text-red-400 bg-red-500/10 border border-red-500/30 p-3 rounded-lg text-sm mt-4 font-medium animate-[fadeIn_0.3s_ease-out] text-center">{error}</p>}
       </div>
 
-      {/* Result Card - Solid Background */}
       {result && (
         <div className="max-w-md w-full bg-slate-800 rounded-2xl shadow-xl shadow-indigo-900/20 border border-slate-700 p-8 text-center animate-[fadeIn_0.5s_ease-out] relative z-10">
           <h2 className="text-2xl font-bold text-white mb-1">Hi, {result.visitor.name}</h2>
           <p className="text-slate-400 text-sm mb-6">Meeting with: <span className="text-indigo-400 font-semibold">{result.visit.hostId.name}</span></p>
 
-          {/* Pending Status */}
           {result.visit.status === 'Pending' && (
             <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-6 rounded-2xl flex flex-col items-center shadow-lg shadow-amber-500/10">
               <Clock size={48} className="mb-3" />
@@ -78,7 +75,6 @@ const CheckStatus = () => {
             </div>
           )}
 
-          {/* Rejected Status */}
           {result.visit.status === 'Rejected' && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-6 rounded-2xl flex flex-col items-center shadow-lg shadow-red-500/10">
               <XCircle size={48} className="mb-3" />
@@ -87,14 +83,12 @@ const CheckStatus = () => {
             </div>
           )}
 
-          {/* Approved Status & QR Code */}
           {result.visit.status === 'Approved' && (
             <div className="flex flex-col items-center">
               <span className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-6 py-2 rounded-full text-sm font-bold mb-6 shadow-lg shadow-emerald-500/10">
                 <CheckCircle size={18} /> Access Granted
               </span>
               
-              {/* QR Code container intentionally white for scanner readability */}
               <div className="bg-white p-3 rounded-2xl shadow-xl shadow-indigo-500/20 mb-6 transform hover:scale-105 transition-transform duration-300">
                 <img src={result.visit.qrCodeData} alt="Your QR Code" className="w-48 h-48 mx-auto" />
               </div>

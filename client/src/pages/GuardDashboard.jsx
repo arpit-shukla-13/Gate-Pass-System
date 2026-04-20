@@ -3,7 +3,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Html5QrcodeScanner } from 'html5-qrcode'; // 🔥 THE ULTIMATE SCANNER LIBRARY
 import { ShieldCheck, UserCheck, XCircle, ScanLine, UserPlus, Send, Clock } from 'lucide-react';
-const API_URL = import.meta.env.VITE_API_URL;
+
+// 🔥 Fallback URL add kar diya hai
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const GuardDashboard = () => {
   const [scanResult, setScanResult] = useState(null);
