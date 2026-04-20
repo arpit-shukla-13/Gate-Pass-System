@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0f172a; /* Deep Slate 900 */
+  --text: #94a3b8; /* Slate 400 */
+  --text-h: #f8fafc; /* White/Slate 50 */
+  --border: #1e293b; /* Slate 800 */
+  --primary: #6366f1; /* Neon Indigo */
+  --primary-hover: #818cf8; /* Light Indigo */
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background-color: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Dark Mode Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--heading);
+  color: var(--text-h);
+}
+
+@layer utilities {
+  .bg-primary { background-color: var(--primary); }
+  .text-primary { color: var(--primary); }
+  .border-primary { border-color: var(--primary); }
+  .hover\:bg-primary-hover:hover { background-color: var(--primary-hover); }
+}
